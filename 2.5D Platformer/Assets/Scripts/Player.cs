@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [Header("Jump Fields")]
     [SerializeField] private float jumpDistance = 500;
     [SerializeField] private float jumpSpeed = 2;
+    [SerializeField] private float maxJumps = 2;
+    private float jumpCount = 0;
     private Vector3 jumpDirection = new();
     private bool isGrounded;
 
@@ -25,8 +27,7 @@ public class Player : MonoBehaviour
 
         HandleMovementInput();
 
-        if (isGrounded)
-            HandleJump();
+        HandleJump();
         
         HandleGravity();
     }
@@ -42,8 +43,13 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isGrounded)
+            jumpCount = 0;
+
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
+            jumpCount++;
+
             jumpDirection = jumpDistance * jumpSpeed * transform.up;
 
             characterController.Move(jumpDirection);
