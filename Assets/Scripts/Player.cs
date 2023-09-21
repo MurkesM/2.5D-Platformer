@@ -14,8 +14,7 @@ public class Player : MonoBehaviour
     private Vector3 fallDirection = new();
 
     [Header("Jump Fields")]
-    [SerializeField] private float jumpDistance = 500;
-    [SerializeField] private float jumpSpeed = 2;
+    [SerializeField] private float jumpDistance = 2;
     [SerializeField] private float maxJumps = 2;
     private float jumpCount = 0;
     private Vector3 jumpDirection = new();
@@ -50,7 +49,7 @@ public class Player : MonoBehaviour
         {
             jumpCount++;
 
-            jumpDirection = jumpDistance * jumpSpeed * transform.up;
+            jumpDirection = jumpDistance * transform.up;
 
             characterController.Move(jumpDirection);
         }
