@@ -486,7 +486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822012109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.96, y: -0.47, z: -0.05678177}
+  m_LocalPosition: {x: -6.96, y: 3.91, z: -0.05678177}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -507,9 +507,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterController: {fileID: 822012116}
   moveSpeed: 10
-  gravityForce: 7
-  jumpDistance: 3
-  jumpSpeed: 1
+  horizontalInput: 0
+  moveDirection: {x: 0, y: 0, z: 0}
+  gravityForce: 0.25
+  fallDirection: {x: 0, y: 0, z: 0}
+  jumpDistance: 25
+  maxJumps: 2
+  jumpCount: 0
+  jumpDirection: {x: 0, y: 0, z: 0}
+  isGrounded: 0
+  yMovement: 0
 --- !u!143 &822012116
 CharacterController:
   m_ObjectHideFlags: 0

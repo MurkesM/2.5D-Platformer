@@ -2,63 +2,51 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController;
+    public CharacterController characterController;
 
     [Header("Movement Fields")]
-    [SerializeField] private float moveSpeed = 5;
-    private float horizontalInput;
-    private Vector3 moveDirection = new();
+    public float moveSpeed = 5;
+    public float horizontalInput;
+    public Vector3 moveDirection = new();
 
     [Header("Gravity Fields")]
-    [SerializeField] private float gravityForce = 10;
-    private Vector3 fallDirection = new();
+    public float gravityForce = 10;
 
     [Header("Jump Fields")]
-    [SerializeField] private float jumpDistance = 2;
-    [SerializeField] private float maxJumps = 2;
-    private float jumpCount = 0;
-    private Vector3 jumpDirection = new();
-    private bool isGrounded;
+    public float jumpDistance = 2;
+    public float maxJumps = 2;
+    public float jumpCount = 0;
+    public bool isGrounded;
+
+    public float yMovement;
 
     private void Update()
     {
-        isGrounded = characterController.isGrounded;
-
-        HandleMovementInput();
-
-        HandleJump();
-        
-        HandleGravity();
-    }
-
-    private void HandleMovementInput()
-    {
         horizontalInput = Input.GetAxis("Horizontal");
 
-        moveDirection = horizontalInput * moveSpeed * Time.deltaTime * transform.right;
+        isGrounded = characterController.isGrounded;
 
-        characterController.Move(moveDirection);
-    }
+        moveDirection.x = horizontalInput * moveSpeed;
 
-    private void HandleJump()
-    {
         if (isGrounded)
+        {
             jumpCount = 0;
+
+            yMovement = transform.position.y;
+        }
+        else yMovement -= gravityForce;
+            
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
             jumpCount++;
 
-            jumpDirection = jumpDistance * transform.up;
+            yMovement = transform.position.y;
 
-            characterController.Move(jumpDirection);
+            yMovement += jumpDistance;
         }
-    }
 
-    private void HandleGravity()
-    {
-        fallDirection = gravityForce * Time.deltaTime * -transform.up;
-
-        characterController.Move(fallDirection);
+        moveDirection.y = yMovement;
+        characterController.Move(moveDirection * Time.deltaTime);
     }
 }
