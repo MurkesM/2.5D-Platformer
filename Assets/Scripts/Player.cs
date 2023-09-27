@@ -29,12 +29,10 @@ public class Player : MonoBehaviour
         moveDirection.x = horizontalInput * moveSpeed;
 
         if (isGrounded)
-        {
             jumpCount = 0;
 
-            yMovement = transform.position.y;
-        }
-        else yMovement -= gravityForce;
+        else 
+            yMovement -= gravityForce;
             
 
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
