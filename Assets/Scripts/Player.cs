@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
 
     [Header("Gravity Fields")]
     public float gravityForce = 10;
+    public bool useGravity = true;
 
     [Header("Jump Fields")]
     public float jumpDistance = 2;
@@ -19,6 +20,8 @@ public class Player : MonoBehaviour
     public bool isGrounded;
 
     public float yMovement;
+
+    private MovingPlatform movingPlatform;        
 
     private void Update()
     {
@@ -31,10 +34,9 @@ public class Player : MonoBehaviour
         if (isGrounded)
             jumpCount = 0;
 
-        else 
+        else if (useGravity)
             yMovement -= gravityForce;
             
-
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
             jumpCount++;
@@ -45,6 +47,18 @@ public class Player : MonoBehaviour
         }
 
         moveDirection.y = yMovement;
+
+        if (movingPlatform)
+            moveDirection += movingPlatform.movingDirection;
+
         characterController.Move(moveDirection * Time.deltaTime);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("Moving Platform"))
+            movingPlatform = hit.gameObject.GetComponent<MovingPlatform>();
+        else
+            movingPlatform = null;
     }
 }

@@ -12,6 +12,8 @@ public class MovingPlatform : MonoBehaviour
 
     private Vector3 positionToMove = new();
 
+    public Vector3 movingDirection = new(); 
+
     private void Awake()
     {
         leftEnd = transform.position + -transform.right * leftDistance;
@@ -23,11 +25,18 @@ public class MovingPlatform : MonoBehaviour
     private void Update()
     {
         if (transform.position == leftEnd)
+        {
             positionToMove = rightEnd;
+            movingDirection = transform.right;
+        }
+            
 
         if (transform.position == rightEnd)
+        {
             positionToMove = leftEnd;
-
+            movingDirection = -transform.right;
+        }
+            
         transform.position = Vector3.MoveTowards(transform.position, positionToMove, moveSpeed * Time.deltaTime);
     }
 }
