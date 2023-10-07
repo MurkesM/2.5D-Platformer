@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -21,10 +22,16 @@ public class Player : MonoBehaviour
 
     public float yMovement;
 
-    private MovingPlatform movingPlatform;        
+    private MovingPlatform movingPlatform;
+
+    public int totalLives = 3;
+
+    public Transform startingTransform;
 
     private void Update()
     {
+        CheckForDeathZone();
+
         horizontalInput = Input.GetAxis("Horizontal");
 
         isGrounded = characterController.isGrounded;
@@ -60,5 +67,24 @@ public class Player : MonoBehaviour
             movingPlatform = hit.gameObject.GetComponent<MovingPlatform>();
         else
             movingPlatform = null;
+    }
+
+    private void CheckForDeathZone()
+    {
+        if (transform.position.y < -25)
+        {
+            totalLives--;
+
+            characterController.enabled = false;
+
+            transform.position = startingTransform.position;
+
+            UIManager.instance.UpdateLivesText(totalLives);
+
+            if (totalLives <= 0)
+                SceneManager.LoadScene(0);
+
+            characterController.enabled = true;
+        }
     }
 }
